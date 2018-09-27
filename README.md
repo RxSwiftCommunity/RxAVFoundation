@@ -7,7 +7,7 @@ Basic usage.
 let session = AVCaptureSession.rx.session()
 session
     .flatMapLatest { (session) -> Observable<CaptureOutput> in
-        return session.message
+        return session.captureOutput
     }
     .subscribe { (event) in
         switch event {
