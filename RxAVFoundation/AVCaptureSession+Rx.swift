@@ -95,7 +95,7 @@ extension Reactive where Base: AVCaptureSession {
         return videoCaptureOutput
     }
     
-    func depthCaptureOutput(filteringEnabled: Bool = true) -> Observable<DepthCaptureOutput> {
+    public func depthCaptureOutput(filteringEnabled: Bool = true) -> Observable<DepthCaptureOutput> {
         let depthOutput = AVCaptureDepthDataOutput()
         let depthCaptureDelegate = RxAVCaptureDepthDataOutputDelegate()
         let depthCaptureOutput: Observable<DepthCaptureOutput> = Observable
@@ -130,7 +130,7 @@ extension Reactive where Base: AVCaptureSession {
         return depthCaptureOutput
     }
     
-    func synchronizerOutput(dataOutputs: [AVCaptureOutput]) -> Observable<SynchronizerOutput> {
+    public func synchronizerOutput(dataOutputs: [AVCaptureOutput]) -> Observable<SynchronizerOutput> {
         let outputSynchronizer = AVCaptureDataOutputSynchronizer(dataOutputs: dataOutputs) // TODO [videoDataOutput, depthDataOutput])
         let synchronizerDelegate = RxAVCaptureDataOutputSynchronizerDelegate()
         let synchronizerOutput: Observable<SynchronizerOutput> = Observable
@@ -150,7 +150,7 @@ extension Reactive where Base: AVCaptureSession {
         return synchronizerOutput
     }
     
-    var outputs: Single<[AVCaptureOutput]> {
+    public var outputs: Single<[AVCaptureOutput]> {
         get {
             return Single<[AVCaptureOutput]>
                 .create { observer -> Disposable in
