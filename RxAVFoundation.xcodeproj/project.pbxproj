@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		94DC8A83218104690026F49B /* RxAVCapturePhotoCaptureDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94DC8A7E218104680026F49B /* RxAVCapturePhotoCaptureDelegate.swift */; };
+		94DC8A84218104690026F49B /* Global.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94DC8A7F218104690026F49B /* Global.swift */; };
+		94DC8A85218104690026F49B /* RxAVCaptureDepthDataOutputDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94DC8A80218104690026F49B /* RxAVCaptureDepthDataOutputDelegate.swift */; };
+		94DC8A86218104690026F49B /* RxAVCaptureVideoDataOutputSampleBufferDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94DC8A81218104690026F49B /* RxAVCaptureVideoDataOutputSampleBufferDelegate.swift */; };
+		94DC8A87218104690026F49B /* RxAVCaptureDataOutputSynchronizerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94DC8A82218104690026F49B /* RxAVCaptureDataOutputSynchronizerDelegate.swift */; };
 		94DF2750215CA8A400051F68 /* RxAVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 94DF2746215CA8A300051F68 /* RxAVFoundation.framework */; };
 		94DF2755215CA8A400051F68 /* RxAVFoundationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94DF2754215CA8A400051F68 /* RxAVFoundationTests.swift */; };
 		94DF2757215CA8A400051F68 /* RxAVFoundation.h in Headers */ = {isa = PBXBuildFile; fileRef = 94DF2749215CA8A300051F68 /* RxAVFoundation.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -25,6 +30,11 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		94DC8A7E218104680026F49B /* RxAVCapturePhotoCaptureDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RxAVCapturePhotoCaptureDelegate.swift; sourceTree = "<group>"; };
+		94DC8A7F218104690026F49B /* Global.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Global.swift; sourceTree = "<group>"; };
+		94DC8A80218104690026F49B /* RxAVCaptureDepthDataOutputDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RxAVCaptureDepthDataOutputDelegate.swift; sourceTree = "<group>"; };
+		94DC8A81218104690026F49B /* RxAVCaptureVideoDataOutputSampleBufferDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RxAVCaptureVideoDataOutputSampleBufferDelegate.swift; sourceTree = "<group>"; };
+		94DC8A82218104690026F49B /* RxAVCaptureDataOutputSynchronizerDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RxAVCaptureDataOutputSynchronizerDelegate.swift; sourceTree = "<group>"; };
 		94DF2746215CA8A300051F68 /* RxAVFoundation.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = RxAVFoundation.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		94DF2749215CA8A300051F68 /* RxAVFoundation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RxAVFoundation.h; sourceTree = "<group>"; };
 		94DF274A215CA8A300051F68 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -88,6 +98,11 @@
 				94DF2749215CA8A300051F68 /* RxAVFoundation.h */,
 				94DF274A215CA8A300051F68 /* Info.plist */,
 				94DF2767215CB2D900051F68 /* AVCaptureSession+Rx.swift */,
+				94DC8A7F218104690026F49B /* Global.swift */,
+				94DC8A82218104690026F49B /* RxAVCaptureDataOutputSynchronizerDelegate.swift */,
+				94DC8A80218104690026F49B /* RxAVCaptureDepthDataOutputDelegate.swift */,
+				94DC8A7E218104680026F49B /* RxAVCapturePhotoCaptureDelegate.swift */,
+				94DC8A81218104690026F49B /* RxAVCaptureVideoDataOutputSampleBufferDelegate.swift */,
 			);
 			path = RxAVFoundation;
 			sourceTree = "<group>";
@@ -260,7 +275,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				94DC8A83218104690026F49B /* RxAVCapturePhotoCaptureDelegate.swift in Sources */,
+				94DC8A86218104690026F49B /* RxAVCaptureVideoDataOutputSampleBufferDelegate.swift in Sources */,
 				94DF2768215CB2D900051F68 /* AVCaptureSession+Rx.swift in Sources */,
+				94DC8A84218104690026F49B /* Global.swift in Sources */,
+				94DC8A85218104690026F49B /* RxAVCaptureDepthDataOutputDelegate.swift in Sources */,
+				94DC8A87218104690026F49B /* RxAVCaptureDataOutputSynchronizerDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -335,7 +355,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -393,7 +413,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;

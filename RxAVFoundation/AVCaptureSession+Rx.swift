@@ -6,75 +6,167 @@
 //  Copyright © 2018 Maxim Volgin. All rights reserved.
 //
 
+import os.log
 import AVFoundation
 #if !RX_NO_MODULE
 import RxSwift
 import RxCocoa
 #endif
 
-public typealias CaptureOutput = (output: AVCaptureOutput, sampleBuffer: CMSampleBuffer, connection: AVCaptureConnection)
-
-final class RxAVCaptureVideoDataOutputSampleBufferDelegate: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate {
-    
-    typealias Observer = AnyObserver<CaptureOutput>
-    
-    var observer: Observer?
-    
-    public func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
-        observer?.on(.next(CaptureOutput(output, sampleBuffer, connection)))
-    }
-    
-}
-
-public struct RxAVCaptureSession {
-    
-    public let session: AVCaptureSession
-    public let previewLayer: AVCaptureVideoPreviewLayer
-    public let captureOutput: Observable<CaptureOutput>
-
-    private let delegate: RxAVCaptureVideoDataOutputSampleBufferDelegate
-
-    public init() {
-        let session = AVCaptureSession()
-        let delegate = RxAVCaptureVideoDataOutputSampleBufferDelegate()
-        let previewLayer = AVCaptureVideoPreviewLayer(session: session)
-        let captureOutput: Observable<CaptureOutput> = Observable
-            .create { observer in
-                delegate.observer = observer
-                return Disposables.create {
-                    session.stopRunning()
-                }
-            }
-            .do(onSubscribed: {
-                session.sessionPreset = AVCaptureSession.Preset.photo
-                let captureDevice = AVCaptureDevice.default(for: AVMediaType.video)
-                let deviceInput = try! AVCaptureDeviceInput(device: captureDevice!)
-                let deviceOutput = AVCaptureVideoDataOutput()
-                deviceOutput.videoSettings = [kCVPixelBufferPixelFormatTypeKey as String: Int(kCVPixelFormatType_32BGRA)]
-                deviceOutput.setSampleBufferDelegate(delegate, queue: DispatchQueue.global(qos: DispatchQoS.QoSClass.default))
-                session.addInput(deviceInput)
-                session.addOutput(deviceOutput)
-                deviceOutput.connections.first?.videoOrientation = .portrait
-                session.startRunning()
-            })
-        self.captureOutput = captureOutput
-        self.previewLayer = previewLayer
-        self.delegate = delegate
-        self.session = session
-    }
-    
-}
-
 extension Reactive where Base: AVCaptureSession {
     
-    static public func session() -> Observable<RxAVCaptureSession> {
-        return Observable
+    public func configure(preset: AVCaptureSession.Preset = .photo, captureDevice: AVCaptureDevice) {
+        self.configure { session in
+            session.sessionPreset = preset
+            let deviceInput = try! AVCaptureDeviceInput(device: captureDevice)
+            session.addInput(deviceInput)
+        }
+    }
+    
+    public func startRunning() {
+        Queue.session.async {
+            self.base.startRunning()
+        }
+        
+    }
+    
+    public func stopRunning() {
+        Queue.session.async {
+            self.base.stopRunning()
+        }
+    }
+    
+    public func photoCaptureOutput(highResolution: Bool = true, depth: Bool = true) -> Observable<PhotoCaptureOutput> {
+        let photoOutput = AVCapturePhotoOutput()
+        let photoCaptureDelegate = RxAVCapturePhotoCaptureDelegate()
+        let photoCaptureOutput: Observable<PhotoCaptureOutput> = Observable
             .create { observer in
-                let session = RxAVCaptureSession()
-                observer.on(.next(session))
-                return Disposables.create()
+                photoCaptureDelegate.observer = observer
+                
+                self.configure { session in
+                    if session.canAddOutput(photoOutput) {
+                        session.addOutput(photoOutput)
+                        
+                        photoOutput.isHighResolutionCaptureEnabled = highResolution
+                        
+                        if photoOutput.isDepthDataDeliverySupported {
+                            photoOutput.isDepthDataDeliveryEnabled = depth
+                        }
+                        
+                    } else {
+                        os_log("Could not add photo data output to the session", log: Log.photo, type: .error)
+                        observer.onError(RxAVFoundationError.cannotAddOutput(.photo))
+                    }
+                }
+                
+                return Disposables.create {
+                    self.configure { session in
+                        session.removeOutput(photoOutput)
+                    }
+                }
             }
-            .share(replay: 1, scope: .whileConnected)
+            .subscribeOn(Scheduler.session)
+        //            .observeOn(Scheduler.dataOutput)
+        return photoCaptureOutput
+    }
+    
+    public func videoCaptureOutput(orientation: AVCaptureVideoOrientation = .portrait, settings: [String : Any] = [kCVPixelBufferPixelFormatTypeKey as String: Int(kCVPixelFormatType_32BGRA)]) -> Observable<VideoCaptureOutput> {
+        let videoOutput = AVCaptureVideoDataOutput()
+        let videoCaptureDelegate = RxAVCaptureVideoDataOutputSampleBufferDelegate()
+        let videoCaptureOutput: Observable<VideoCaptureOutput> = Observable
+            .create { observer in
+                videoCaptureDelegate.observer = observer
+                
+                self.configure { session in
+                    videoOutput.videoSettings = settings
+                    videoOutput.setSampleBufferDelegate(videoCaptureDelegate, queue: Queue.dataOutput)
+                    session.addOutput(videoOutput)
+                    videoOutput.connections.first?.videoOrientation = orientation
+                }
+                
+                return Disposables.create {
+                    self.configure { session in
+                        session.removeOutput(videoOutput)
+                    }
+                }
+            }
+            .subscribeOn(Scheduler.session)
+        //            .observeOn(Scheduler.dataOutput)
+        return videoCaptureOutput
+    }
+    
+    func depthCaptureOutput(filteringEnabled: Bool = true) -> Observable<DepthCaptureOutput> {
+        let depthOutput = AVCaptureDepthDataOutput()
+        let depthCaptureDelegate = RxAVCaptureDepthDataOutputDelegate()
+        let depthCaptureOutput: Observable<DepthCaptureOutput> = Observable
+            .create { observer in
+                depthCaptureDelegate.observer = observer
+                
+                self.configure { session in
+                    if session.canAddOutput(depthOutput) {
+                        session.addOutput(depthOutput)
+                        depthOutput.setDelegate(depthCaptureDelegate, callbackQueue: Queue.dataOutput)
+                        depthOutput.isFilteringEnabled = filteringEnabled
+                        if let connection = depthOutput.connection(with: .depthData) {
+                            connection.isEnabled = true
+                        } else {
+                            os_log("No AVCaptureConnection", log: Log.depth, type: .error)
+                            observer.onError(RxAVFoundationError.noConnection(.depth))
+                        }
+                    } else {
+                        os_log("Could not add depth data output to the session", log: Log.depth, type: .error)
+                        observer.onError(RxAVFoundationError.cannotAddOutput(.depth))
+                    }
+                }
+                
+                return Disposables.create {
+                    self.configure { session in
+                        session.removeOutput(depthOutput)
+                    }
+                }
+            }
+            .subscribeOn(Scheduler.session)
+        //            .observeOn(Scheduler.dataOutput)
+        return depthCaptureOutput
+    }
+    
+    func synchronizerOutput(dataOutputs: [AVCaptureOutput]) -> Observable<SynchronizerOutput> {
+        let outputSynchronizer = AVCaptureDataOutputSynchronizer(dataOutputs: dataOutputs) // TODO [videoDataOutput, depthDataOutput])
+        let synchronizerDelegate = RxAVCaptureDataOutputSynchronizerDelegate()
+        let synchronizerOutput: Observable<SynchronizerOutput> = Observable
+            .create { observer in
+                synchronizerDelegate.observer = observer
+                
+                self.configure { session in
+                    outputSynchronizer.setDelegate(synchronizerDelegate, queue: Queue.dataOutput)
+                }
+                
+                return Disposables.create {
+                    // NOOP
+                }
+            }
+            .subscribeOn(Scheduler.session)
+        //            .observeOn(Scheduler.dataOutput)
+        return synchronizerOutput
+    }
+    
+    var outputs: Single<[AVCaptureOutput]> {
+        get {
+            return Single<[AVCaptureOutput]>
+                .create { observer -> Disposable in
+                    observer(.success(self.base.outputs))
+                    return Disposables.create()
+                }
+                .subscribeOn(Scheduler.session)
+        }
+    }
+    
+    // MARK: - private
+    
+    private func configure(lambda: (AVCaptureSession) -> Void) {
+        self.base.beginConfiguration()
+        lambda(self.base)
+        self.base.commitConfiguration()
     }
     
 }
