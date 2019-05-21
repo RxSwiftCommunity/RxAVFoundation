@@ -72,7 +72,7 @@ session
 Carthage setup.
 
 ```
-github "maxvol/RxAVFoundation" ~> 0.0.4
+github "maxvol/RxAVFoundation" ~> 0.1.0
 
 ```
 
