@@ -13,6 +13,7 @@ import os.log
 fileprivate let subsystem: String = Bundle.main.bundleIdentifier ?? ""
 
 struct Log {
+    static let meta = OSLog(subsystem: subsystem, category: "meta")
     static let photo = OSLog(subsystem: subsystem, category: "photo")
     static let video = OSLog(subsystem: subsystem, category: "video")
     static let depth = OSLog(subsystem: subsystem, category: "depth")
@@ -38,6 +39,7 @@ struct Scheduler {
 }
 
 public enum RxAVCaptureOutputType: String {
+    case meta = "meta"
     case photo = "photo"
     case video = "video"
     case depth = "depth"

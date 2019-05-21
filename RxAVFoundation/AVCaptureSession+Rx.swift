@@ -27,13 +27,42 @@ extension Reactive where Base: AVCaptureSession {
         Queue.session.async {
             self.base.startRunning()
         }
-        
     }
     
     public func stopRunning() {
         Queue.session.async {
             self.base.stopRunning()
         }
+    }
+    
+    public func medatataCaptureOutput(metadataObjectTypes: [AVMetadataObject.ObjectType]) -> Observable<CaptureMetadataOutput> {
+        let metadataOutput = AVCaptureMetadataOutput()
+        let metadataCaptureDelegate = RxAVCaptureMetadataOutputObjectsDelegate()
+        let metadataCaptureOutput: Observable<CaptureMetadataOutput> = Observable
+            .create { observer in
+                metadataCaptureDelegate.observer = observer
+                
+                self.configure { session in
+                    if session.canAddOutput(metadataOutput) {
+                        session.addOutput(metadataOutput)
+                        
+                        metadataOutput.metadataObjectTypes = metadataObjectTypes
+                        
+                    } else {
+                        os_log("Could not add metadata output to the session", log: Log.meta, type: .error)
+                        observer.onError(RxAVFoundationError.cannotAddOutput(.meta))
+                    }
+                }
+                
+                return Disposables.create {
+                    self.configure { session in
+                        session.removeOutput(metadataOutput)
+                    }
+                }
+            }
+            .subscribeOn(Scheduler.session)
+        //            .observeOn(Scheduler.dataOutput)
+        return metadataCaptureOutput
     }
     
     public func photoCaptureOutput(highResolution: Bool = true, depth: Bool = true) -> Observable<PhotoCaptureOutput> {
