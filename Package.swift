@@ -14,6 +14,7 @@ let package = Package(
     targets: [
         .target(
             name: "RxAVFoundation",
-            dependencies: ["RxSwift"])
+            dependencies: ["RxSwift"],
+            path: "RxAVFoundation")
     ]
 )
