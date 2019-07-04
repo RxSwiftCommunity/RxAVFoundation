@@ -3,7 +3,7 @@
 //  RxAVFoundation
 //
 //  Created by Maxim Volgin on 13/10/2018.
-//  Copyright © 2018 Maxim Volgin. All rights reserved.
+//  Copyright (c) RxSwiftCommunity. All rights reserved.
 //
 
 import AVFoundation

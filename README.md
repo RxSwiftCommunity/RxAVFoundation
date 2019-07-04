@@ -72,8 +72,8 @@ session
 Carthage setup.
 
 ```
-github "maxvol/RxAVFoundation" ~> 0.1.0
+github "RxSwiftCommunity/RxAVFoundation" ~> 0.1.0
 
 ```
 
-
+Copyright (c) RxSwiftCommunity
