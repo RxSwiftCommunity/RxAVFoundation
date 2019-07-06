@@ -66,6 +66,7 @@ extension Reactive where Base: AVCaptureSession {
         return metadataCaptureOutput
     }
     
+    @available(iOS 11.0, *)
     public func photoCaptureOutput(highResolution: Bool = true, depth: Bool = true) -> Observable<PhotoCaptureOutput> {
         let photoOutput = AVCapturePhotoOutput()
         let photoCaptureDelegate = RxAVCapturePhotoCaptureDelegate()
