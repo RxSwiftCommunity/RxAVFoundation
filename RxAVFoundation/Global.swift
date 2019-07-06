@@ -12,6 +12,7 @@ import os.log
 
 fileprivate let subsystem: String = Bundle.main.bundleIdentifier ?? ""
 
+@available(iOS 10.0, *)
 struct Log {
     static let meta = OSLog(subsystem: subsystem, category: "meta")
     static let photo = OSLog(subsystem: subsystem, category: "photo")
@@ -26,12 +27,14 @@ fileprivate struct Label {
     fileprivate static let processing = "\(subsystem) photo processing queue"
 }
 
+@available(iOS 10.0, *)
 struct Queue {
     static let session = DispatchQueue(label: Label.session, attributes: [], autoreleaseFrequency: .workItem)
     static let dataOutput = DispatchQueue(label: Label.dataOutput, qos: .userInitiated, attributes: [], autoreleaseFrequency: .workItem)
     static let processing = DispatchQueue(label: Label.processing, attributes: [], autoreleaseFrequency: .workItem)
 }
 
+@available(iOS 10.0, *)
 struct Scheduler {
     static let session = SerialDispatchQueueScheduler(queue: Queue.session, internalSerialQueueName: Label.session)
     static let dataOutput = SerialDispatchQueueScheduler(queue: Queue.dataOutput, internalSerialQueueName: Label.dataOutput)

@@ -13,6 +13,7 @@ import RxSwift
 import RxCocoa
 #endif
 
+@available(iOS 10.0, *)
 extension Reactive where Base: AVCaptureSession {
     
     public func configure(preset: AVCaptureSession.Preset = .photo, captureDevice: AVCaptureDevice) {
@@ -78,10 +79,11 @@ extension Reactive where Base: AVCaptureSession {
                         
                         photoOutput.isHighResolutionCaptureEnabled = highResolution
                         
-                        if photoOutput.isDepthDataDeliverySupported {
-                            photoOutput.isDepthDataDeliveryEnabled = depth
+                        if #available(iOS 11.0, *) {
+                            if photoOutput.isDepthDataDeliverySupported {
+                                photoOutput.isDepthDataDeliveryEnabled = depth
+                            }
                         }
-                        
                     } else {
                         os_log("Could not add photo data output to the session", log: Log.photo, type: .error)
                         observer.onError(RxAVFoundationError.cannotAddOutput(.photo))
@@ -124,6 +126,7 @@ extension Reactive where Base: AVCaptureSession {
         return videoCaptureOutput
     }
     
+    @available(iOS 11.0, *)
     public func depthCaptureOutput(filteringEnabled: Bool = true) -> Observable<DepthCaptureOutput> {
         let depthOutput = AVCaptureDepthDataOutput()
         let depthCaptureDelegate = RxAVCaptureDepthDataOutputDelegate()
@@ -159,6 +162,7 @@ extension Reactive where Base: AVCaptureSession {
         return depthCaptureOutput
     }
     
+    @available(iOS 11.0, *)
     public func synchronizerOutput(dataOutputs: [AVCaptureOutput]) -> Observable<SynchronizerOutput> {
         let outputSynchronizer = AVCaptureDataOutputSynchronizer(dataOutputs: dataOutputs) // TODO [videoDataOutput, depthDataOutput])
         let synchronizerDelegate = RxAVCaptureDataOutputSynchronizerDelegate()

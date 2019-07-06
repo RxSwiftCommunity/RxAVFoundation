@@ -12,8 +12,10 @@ import RxSwift
 import RxCocoa
 #endif
 
+@available(iOS 10.0, *)
 public typealias VideoCaptureOutput = (output: AVCaptureOutput, sampleBuffer: CMSampleBuffer, connection: AVCaptureConnection)
 
+@available(iOS 10.0, *)
 final class RxAVCaptureVideoDataOutputSampleBufferDelegate: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate {
     
     typealias Observer = AnyObserver<VideoCaptureOutput>
