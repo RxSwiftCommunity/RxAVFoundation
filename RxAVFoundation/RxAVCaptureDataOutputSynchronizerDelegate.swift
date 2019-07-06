@@ -12,8 +12,10 @@ import RxSwift
 import RxCocoa
 #endif
 
+@available(iOS 11.0, *)
 public typealias SynchronizerOutput = (synchronizer: AVCaptureDataOutputSynchronizer, synchronizedDataCollection: AVCaptureSynchronizedDataCollection)
 
+@available(iOS 11.0, *)
 final class RxAVCaptureDataOutputSynchronizerDelegate: NSObject, AVCaptureDataOutputSynchronizerDelegate {
     
     typealias Observer = AnyObserver<SynchronizerOutput>

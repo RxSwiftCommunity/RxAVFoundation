@@ -12,8 +12,10 @@ import RxSwift
 import RxCocoa
 #endif
 
+@available(iOS 10.0, *)
 public typealias CaptureMetadataOutput = (output: AVCaptureMetadataOutput, metadataObjects: [AVMetadataObject], connection: AVCaptureConnection)
 
+@available(iOS 10.0, *)
 final class RxAVCaptureMetadataOutputObjectsDelegate: NSObject, AVCaptureMetadataOutputObjectsDelegate {
     
     typealias Observer = AnyObserver<CaptureMetadataOutput>

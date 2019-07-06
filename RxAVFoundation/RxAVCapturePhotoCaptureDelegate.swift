@@ -12,8 +12,10 @@ import RxSwift
 import RxCocoa
 #endif
 
+@available(iOS 11.0, *)
 public typealias PhotoCaptureOutput = (output: AVCapturePhotoOutput, photo: AVCapturePhoto, error: Error?)
 
+@available(iOS 11.0, *)
 final class RxAVCapturePhotoCaptureDelegate: NSObject, AVCapturePhotoCaptureDelegate {
 
     typealias Observer = AnyObserver<PhotoCaptureOutput>
