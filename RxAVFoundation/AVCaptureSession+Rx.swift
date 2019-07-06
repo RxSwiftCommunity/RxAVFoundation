@@ -80,10 +80,8 @@ extension Reactive where Base: AVCaptureSession {
                         
                         photoOutput.isHighResolutionCaptureEnabled = highResolution
                         
-                        if #available(iOS 11.0, *) {
-                            if photoOutput.isDepthDataDeliverySupported {
-                                photoOutput.isDepthDataDeliveryEnabled = depth
-                            }
+                        if photoOutput.isDepthDataDeliverySupported {
+                            photoOutput.isDepthDataDeliveryEnabled = depth
                         }
                     } else {
                         os_log("Could not add photo data output to the session", log: Log.photo, type: .error)
