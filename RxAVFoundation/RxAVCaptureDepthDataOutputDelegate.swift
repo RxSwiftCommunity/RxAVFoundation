@@ -12,8 +12,10 @@ import RxSwift
 import RxCocoa
 #endif
 
+@available(iOS 11.0, *)
 public typealias DepthCaptureOutput = (depthDataOutput: AVCaptureDepthDataOutput, depthData: AVDepthData, timestamp: CMTime, connection: AVCaptureConnection)
 
+@available(iOS 11.0, *)
 final class RxAVCaptureDepthDataOutputDelegate: NSObject, AVCaptureDepthDataOutputDelegate {
     
     typealias Observer = AnyObserver<DepthCaptureOutput>
