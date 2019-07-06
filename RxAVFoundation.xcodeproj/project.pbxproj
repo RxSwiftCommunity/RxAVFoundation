@@ -190,11 +190,11 @@
 				ORGANIZATIONNAME = "Maxim Volgin";
 				TargetAttributes = {
 					94DF2745215CA8A300051F68 = {
-						CreatedOnToolsVersion = 10.0;
+						CreatedOnToolsVersion = 11.0;
 						LastSwiftMigration = 1020;
 					};
 					94DF274E215CA8A400051F68 = {
-						CreatedOnToolsVersion = 10.0;
+						CreatedOnToolsVersion = 11.0;
 						LastSwiftMigration = 1020;
 					};
 				};
