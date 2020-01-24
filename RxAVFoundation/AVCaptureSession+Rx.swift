@@ -6,16 +6,15 @@
 //  Copyright (c) RxSwiftCommunity. All rights reserved.
 //
 
-import os.log
 import AVFoundation
+import os.log
 #if !RX_NO_MODULE
-import RxSwift
 import RxCocoa
+import RxSwift
 #endif
 
 @available(iOS 10.0, *)
 extension Reactive where Base: AVCaptureSession {
-    
     public func configure(preset: AVCaptureSession.Preset = .photo, captureDevice: AVCaptureDevice) {
         self.configure { session in
             session.sessionPreset = preset
@@ -48,6 +47,7 @@ extension Reactive where Base: AVCaptureSession {
                         session.addOutput(metadataOutput)
                         
                         metadataOutput.metadataObjectTypes = metadataObjectTypes
+                        metadataOutput.setMetadataObjectsDelegate(metadataCaptureDelegate, queue: DispatchQueue.main)
                         
                     } else {
                         os_log("Could not add metadata output to the session", log: Log.meta, type: .error)
@@ -100,7 +100,7 @@ extension Reactive where Base: AVCaptureSession {
         return photoCaptureOutput
     }
     
-    public func videoCaptureOutput(orientation: AVCaptureVideoOrientation = .portrait, settings: [String : Any] = [kCVPixelBufferPixelFormatTypeKey as String: Int(kCVPixelFormatType_32BGRA)]) -> Observable<VideoCaptureOutput> {
+    public func videoCaptureOutput(orientation: AVCaptureVideoOrientation = .portrait, settings: [String: Any] = [kCVPixelBufferPixelFormatTypeKey as String: Int(kCVPixelFormatType_32BGRA)]) -> Observable<VideoCaptureOutput> {
         let videoOutput = AVCaptureVideoDataOutput()
         let videoCaptureDelegate = RxAVCaptureVideoDataOutputSampleBufferDelegate()
         let videoCaptureOutput: Observable<VideoCaptureOutput> = Observable
@@ -163,13 +163,13 @@ extension Reactive where Base: AVCaptureSession {
     
     @available(iOS 11.0, *)
     public func synchronizerOutput(dataOutputs: [AVCaptureOutput]) -> Observable<SynchronizerOutput> {
-        let outputSynchronizer = AVCaptureDataOutputSynchronizer(dataOutputs: dataOutputs) // TODO [videoDataOutput, depthDataOutput])
+        let outputSynchronizer = AVCaptureDataOutputSynchronizer(dataOutputs: dataOutputs) // TODO: [videoDataOutput, depthDataOutput])
         let synchronizerDelegate = RxAVCaptureDataOutputSynchronizerDelegate()
         let synchronizerOutput: Observable<SynchronizerOutput> = Observable
             .create { observer in
                 synchronizerDelegate.observer = observer
                 
-                self.configure { session in
+                self.configure { _ in
                     outputSynchronizer.setDelegate(synchronizerDelegate, queue: Queue.dataOutput)
                 }
                 
@@ -183,14 +183,12 @@ extension Reactive where Base: AVCaptureSession {
     }
     
     public var outputs: Single<[AVCaptureOutput]> {
-        get {
-            return Single<[AVCaptureOutput]>
-                .create { observer -> Disposable in
-                    observer(.success(self.base.outputs))
-                    return Disposables.create()
-                }
-                .subscribeOn(Scheduler.session)
-        }
+        return Single<[AVCaptureOutput]>
+            .create { observer -> Disposable in
+                observer(.success(self.base.outputs))
+                return Disposables.create()
+            }
+            .subscribeOn(Scheduler.session)
     }
     
     // MARK: - private
@@ -200,5 +198,4 @@ extension Reactive where Base: AVCaptureSession {
         lambda(self.base)
         self.base.commitConfiguration()
     }
-    
 }
