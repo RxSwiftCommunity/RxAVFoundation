@@ -8,22 +8,22 @@
 
 import AVFoundation
 #if !RX_NO_MODULE
-import RxSwift
 import RxCocoa
+import RxSwift
 #endif
 
 @available(iOS 10.0, *)
 public typealias CaptureMetadataOutput = (output: AVCaptureMetadataOutput, metadataObjects: [AVMetadataObject], connection: AVCaptureConnection)
 
 @available(iOS 10.0, *)
-final class RxAVCaptureMetadataOutputObjectsDelegate: NSObject, AVCaptureMetadataOutputObjectsDelegate {
-    
+final class RxAVCaptureMetadataOutputObjectsDelegate: NSObject {
     typealias Observer = AnyObserver<CaptureMetadataOutput>
-    
+
     var observer: Observer?
-    
-    public func  metadataOutput(_ output: AVCaptureMetadataOutput, didOutput metadataObjects: [AVMetadataObject], from connection: AVCaptureConnection) {
+}
+
+extension RxAVCaptureMetadataOutputObjectsDelegate: AVCaptureMetadataOutputObjectsDelegate {
+    public func metadataOutput(_ output: AVCaptureMetadataOutput, didOutput metadataObjects: [AVMetadataObject], from connection: AVCaptureConnection) {
         observer?.on(.next(CaptureMetadataOutput(output, metadataObjects, connection)))
     }
-    
 }

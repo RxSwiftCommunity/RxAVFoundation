@@ -8,22 +8,22 @@
 
 import AVFoundation
 #if !RX_NO_MODULE
-import RxSwift
 import RxCocoa
+import RxSwift
 #endif
 
 @available(iOS 11.0, *)
 public typealias DepthCaptureOutput = (depthDataOutput: AVCaptureDepthDataOutput, depthData: AVDepthData, timestamp: CMTime, connection: AVCaptureConnection)
 
 @available(iOS 11.0, *)
-final class RxAVCaptureDepthDataOutputDelegate: NSObject, AVCaptureDepthDataOutputDelegate {
-    
+final class RxAVCaptureDepthDataOutputDelegate: NSObject {
     typealias Observer = AnyObserver<DepthCaptureOutput>
-    
+
     var observer: Observer?
-    
+}
+
+extension RxAVCaptureDepthDataOutputDelegate: AVCaptureDepthDataOutputDelegate {
     public func depthDataOutput(_ depthDataOutput: AVCaptureDepthDataOutput, didOutput depthData: AVDepthData, timestamp: CMTime, connection: AVCaptureConnection) {
         observer?.on(.next(DepthCaptureOutput(depthDataOutput, depthData, timestamp, connection)))
     }
-    
 }
