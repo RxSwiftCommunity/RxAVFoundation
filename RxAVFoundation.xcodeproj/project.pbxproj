@@ -3,10 +3,12 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8A8481CA280EAD8C00D968E6 /* RxSwift.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8A8481C9280EAD8C00D968E6 /* RxSwift.xcframework */; };
+		8A8481CC280EADB500D968E6 /* RxCocoa.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8A8481CB280EADB500D968E6 /* RxCocoa.xcframework */; };
 		946A25C522946FDE002B46BA /* RxAVCaptureMetadataOutputObjectsDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 946A25C422946FDE002B46BA /* RxAVCaptureMetadataOutputObjectsDelegate.swift */; };
 		94DC8A83218104690026F49B /* RxAVCapturePhotoCaptureDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94DC8A7E218104680026F49B /* RxAVCapturePhotoCaptureDelegate.swift */; };
 		94DC8A84218104690026F49B /* Global.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94DC8A7F218104690026F49B /* Global.swift */; };
@@ -16,7 +18,6 @@
 		94DF2750215CA8A400051F68 /* RxAVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 94DF2746215CA8A300051F68 /* RxAVFoundation.framework */; };
 		94DF2755215CA8A400051F68 /* RxAVFoundationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94DF2754215CA8A400051F68 /* RxAVFoundationTests.swift */; };
 		94DF2757215CA8A400051F68 /* RxAVFoundation.h in Headers */ = {isa = PBXBuildFile; fileRef = 94DF2749215CA8A300051F68 /* RxAVFoundation.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		94DF2766215CAAAA00051F68 /* RxSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 94DF2765215CAAAA00051F68 /* RxSwift.framework */; };
 		94DF2768215CB2D900051F68 /* AVCaptureSession+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94DF2767215CB2D900051F68 /* AVCaptureSession+Rx.swift */; };
 /* End PBXBuildFile section */
 
@@ -31,6 +32,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		8A8481C9280EAD8C00D968E6 /* RxSwift.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = RxSwift.xcframework; path = Carthage/Build/RxSwift.xcframework; sourceTree = "<group>"; };
+		8A8481CB280EADB500D968E6 /* RxCocoa.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = RxCocoa.xcframework; path = Carthage/Build/RxCocoa.xcframework; sourceTree = "<group>"; };
 		946A25C422946FDE002B46BA /* RxAVCaptureMetadataOutputObjectsDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RxAVCaptureMetadataOutputObjectsDelegate.swift; sourceTree = "<group>"; };
 		94DC8A7E218104680026F49B /* RxAVCapturePhotoCaptureDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RxAVCapturePhotoCaptureDelegate.swift; sourceTree = "<group>"; };
 		94DC8A7F218104690026F49B /* Global.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Global.swift; sourceTree = "<group>"; };
@@ -43,7 +46,6 @@
 		94DF274F215CA8A400051F68 /* RxAVFoundationTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RxAVFoundationTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		94DF2754215CA8A400051F68 /* RxAVFoundationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RxAVFoundationTests.swift; sourceTree = "<group>"; };
 		94DF2756215CA8A400051F68 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		94DF2765215CAAAA00051F68 /* RxSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RxSwift.framework; path = ../../Carthage/Build/iOS/RxSwift.framework; sourceTree = "<group>"; };
 		94DF2767215CB2D900051F68 /* AVCaptureSession+Rx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AVCaptureSession+Rx.swift"; sourceTree = "<group>"; };
 		94DF2769215D476600051F68 /* Cartfile.resolved */ = {isa = PBXFileReference; lastKnownFileType = text; path = Cartfile.resolved; sourceTree = "<group>"; };
 		94DF276A215D476600051F68 /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
@@ -56,7 +58,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				94DF2766215CAAAA00051F68 /* RxSwift.framework in Frameworks */,
+				8A8481CC280EADB500D968E6 /* RxCocoa.xcframework in Frameworks */,
+				8A8481CA280EAD8C00D968E6 /* RxSwift.xcframework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -122,7 +125,8 @@
 		94DF2764215CAAA900051F68 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				94DF2765215CAAAA00051F68 /* RxSwift.framework */,
+				8A8481CB280EADB500D968E6 /* RxCocoa.xcframework */,
+				8A8481C9280EAD8C00D968E6 /* RxSwift.xcframework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -149,7 +153,6 @@
 				94DF2742215CA8A300051F68 /* Sources */,
 				94DF2743215CA8A300051F68 /* Frameworks */,
 				94DF2744215CA8A300051F68 /* Resources */,
-				94DF2762215CAA4F00051F68 /* Carthage */,
 				94DF2763215CAA5200051F68 /* Delete Nested Framework(s) */,
 			);
 			buildRules = (
@@ -186,7 +189,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 1000;
-				LastUpgradeCheck = 1000;
+				LastUpgradeCheck = 1330;
 				ORGANIZATIONNAME = "Maxim Volgin";
 				TargetAttributes = {
 					94DF2745215CA8A300051F68 = {
@@ -205,6 +208,7 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				Base,
 			);
 			mainGroup = 94DF273C215CA8A300051F68;
 			productRefGroup = 94DF2747215CA8A300051F68 /* Products */;
@@ -235,25 +239,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		94DF2762215CAA4F00051F68 /* Carthage */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"$(SRCROOT)/Carthage/Build/iOS/RxSwift.framework",
-			);
-			name = Carthage;
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "/usr/local/bin/carthage copy-frameworks\n";
-		};
 		94DF2763215CAA5200051F68 /* Delete Nested Framework(s) */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -334,6 +319,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -398,6 +384,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -442,7 +429,7 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/Carthage/Build/iOS",
+					"$(PROJECT_DIR)/Carthage/Build",
 				);
 				INFOPLIST_FILE = RxAVFoundation/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
@@ -472,7 +459,7 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/Carthage/Build/iOS",
+					"$(PROJECT_DIR)/Carthage/Build",
 				);
 				INFOPLIST_FILE = RxAVFoundation/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
